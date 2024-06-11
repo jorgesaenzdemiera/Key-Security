@@ -26,17 +26,16 @@ while running and completed_attempts < attempts:
                 'timestamp': time.time(),
                 'event': 'keydown',
                 'attempt': completed_attempts,
-                'correct': None  # Will be set later based on attempt outcome
             })
-            input_text += pygame.key.name(event.key)
+            
         elif event.type == pygame.KEYUP:
             key_data.append({
                 'key': pygame.key.name(event.key),
                 'timestamp': time.time(),
                 'event': 'keyup',
                 'attempt': completed_attempts,
-                'correct': None  # Will be set later based on attempt outcome
             })
+            input_text += pygame.key.name(event.key)
 
     screen.fill((255, 255, 255))
     text = font.render(input_text, True, (0, 0, 0))
@@ -46,17 +45,9 @@ while running and completed_attempts < attempts:
     # Check if the password is typed
     if len(input_text) >= len(target_password):
         if input_text == target_password:
-            # Mark all keystrokes in this attempt as correct
-            for record in key_data:
-                if record['attempt'] == completed_attempts:
-                    record['correct'] = True
             completed_attempts += 1
             print(f"Attempt {completed_attempts}/{attempts} complete.")
         else:
-            # Mark all keystrokes in this attempt as incorrect
-            for record in key_data:
-                if record['attempt'] == completed_attempts:
-                    record['correct'] = False
             print("Incorrect password. Please try again.")
 
         # Reset input text for the next attempt
